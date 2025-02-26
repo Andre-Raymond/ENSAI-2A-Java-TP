@@ -1,5 +1,6 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,9 +67,29 @@ public class Password {
      */
     public static boolean isStrongPassword(String password) {
 
-        // Code here
+        int length = password.length(); 
+        if ( length < 12){ return false ;}
+        char c ;
+        boolean Maj = false;
+        boolean Minus = false;
+        boolean Chiffre = false;
+        boolean Espace = false;
+        for (int i = 0; i < length; i++) {
+            c = password.charAt(i);
+            
+            // si ce charactère est une majuscule
+            if( Character.isUpperCase(c)){ Maj = true;}
 
-        return false;
+            
+            // si c'est une minuscule
+            if( Character.isLowerCase(c)){ Minus = true;}
+            // si c'est un nombre
+            if( Character.isDigit(c)){ Chiffre = true;}
+
+            if (!Character.isWhitespace(c)){ Espace =true;}
+        }
+
+        return Maj & Minus & Chiffre & Espace ;
     }
 
     /**
@@ -81,10 +102,16 @@ public class Password {
      */
     public static HashMap<String, Boolean> checkPasswordsList(ArrayList<String> passwords) {
 
-        // Code here
-
-        return null;
+        HashMap<String, Boolean> result = new HashMap<>();
+        
+        for (String password : passwords) {
+            result.put(password, isStrongPassword(password));
+        }
+        
+        return result;
     }
+
+
 
     /**
      * Generates a secure random password with at least:
@@ -100,7 +127,8 @@ public class Password {
      */
     public static String generatePassword(int nbCar) {
 
-        // Code here
+        SecureRandom random = new SecureRandom();
+
 
         return null;
     }
